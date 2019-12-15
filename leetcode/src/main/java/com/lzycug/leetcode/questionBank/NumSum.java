@@ -10,7 +10,7 @@ package com.lzycug.leetcode.questionBank;
  * 输出：7 -> 0 -> 8
  * 原因：342 + 465 = 807
  *
- * @author lWX716128
+ * @author lzycug
  * @since 2019-12-06
  */
 public class NumSum {

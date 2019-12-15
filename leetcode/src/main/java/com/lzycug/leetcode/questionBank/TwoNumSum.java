@@ -9,7 +9,7 @@ package com.lzycug.leetcode.questionBank;
  * 因为 nums[0] + nums[1] = 2 + 7 = 9
  * 所以返回 [0, 1]
  *
- * @author lWX716128
+ * @author lzycug
  * @since 2019-12-06
  */
 public class TwoNumSum {

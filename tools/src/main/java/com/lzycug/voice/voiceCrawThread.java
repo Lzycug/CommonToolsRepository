@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 /**
  * 功能描述
  *
- * @author 李志扬
+ * @author lzycug
  * @since 2019-11-09
  */
 public class voiceCrawThread {
