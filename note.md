@@ -17,3 +17,11 @@
   * @Repository需要在Spring中配置扫描地址（@MapperScan 注解配置扫描包路经），然后生成Dao层的Bean才能被注入到Service层中 
   * @Mapper不需要配置扫描地址，通过xml里面的namespace里面的接口地址，生成了Bean后注入到Service层中 
 
+* #### 打包项目的几种方式
+
+  * maven项目
+    * 使用编辑器的maven插件进行打包
+    * 使用cmd命令行进行打包（mvn clean package）
+  * 非maven项目
+    * 使用eclipse的export导出为jar或者war
+    * 使用idea，File->Project Structure->Artifacts->"+"添加jar或者war包方式打包
