@@ -4,6 +4,7 @@
 
 package com.lzycug.file;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.util.ObjectUtils;
@@ -69,7 +70,7 @@ public class ZipUtil {
             CheckedOutputStream cos = new CheckedOutputStream(fileOutputStream, new CRC32());
             ZipOutputStream zipOutputStream = new ZipOutputStream(cos)) {
             fileChannel.lock();
-            anyToZip("", file, zipOutputStream);
+            anyToZip(StringUtils.EMPTY, file, zipOutputStream);
         } catch (Throwable e) {
             LOGGER.error("Fail to zip file");
             throw new RuntimeException("Fail to zip file", e);
