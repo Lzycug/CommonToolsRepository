@@ -1,4 +1,4 @@
-# 常用知识点总结
+常用知识点总结
 
 * #### @RequestBody、@Requestparam、@ModelAtttribute注解区别联系
 
@@ -57,6 +57,7 @@
       		<password>admin123</password>
       	</server>
       </servers>
+      注：用户名和密码填写自己的实际内容
       ```
 
     * 私服的一大作用是部署第三方构件，包括组织内部生成的构件以及一些无法从外部仓库直接获取的构件。无论是日常开发中生成的构件，还是正式版本发布的构件，都需要部署到仓库中，供其他团队成员使用。
@@ -108,6 +109,7 @@
     		<password>admin123</password>
     	</server>
     </servers>
+    注：用户名和密码填写自己的实际内容
     ```
 
     进入jar包所在目录运行
@@ -116,4 +118,41 @@
     mvn deploy:deploy-file -Dfile=jar包路径 -DgroupId=jar包的groupId -DartifactId=jar包的artifactId -Dversion=jar包版本号 -Dpackaging=jar -Durl=私服地址 -DrepositoryId=私服Id
     ```
 
-    
+* #### maven配置从私服下载依赖jar包
+
+  * 在maven的settings.xml配置私服下载信息
+
+    ```xml
+    <!-- 下载jar包配置 -->
+    	<profile> 
+    		<!--profile的id -->
+    		<id>dev</id>
+    		<repositories>
+    			<repository> <!--仓库id，repositories可以配置多个仓库，保证id不重复 -->
+    				<id>nexus</id> <!--仓库地址，即nexus仓库组的地址 -->
+    				<url>http://xxxx:8081/nexus/content/groups/public/</url> 
+    				<releases><!--是否下载releases构件 -->
+    					<enabled>true</enabled>
+    				</releases> 
+    				<snapshots><!--是否下载snapshots构件 -->
+    					<enabled>true</enabled>
+    				</snapshots>
+    			</repository>
+    		</repositories>
+    		<pluginRepositories> <!-- 插件仓库，maven的运行依赖插件，也需要从私服下载插件 -->
+    			<pluginRepository> <!-- 插件仓库的id不允许重复，如果重复后边配置会覆盖前边 -->
+    				<id>public</id>
+    				<name>Public Repositories</name>
+    				<url>http://xxxx:8081/nexus/content/groups/public/</url>
+    			</pluginRepository>
+    		</pluginRepositories>
+    	</profile>
+    ```
+
+  * 激活下载配置
+
+    ```xml
+    <activeProfiles>
+    	<activeProfile>dev</activeProfile>
+    </activeProfiles>
+    ```
