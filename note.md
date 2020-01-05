@@ -26,7 +26,7 @@
     * 使用eclipse的export导出为jar或者war
     * 使用idea，File->Project Structure->Artifacts->"+"添加jar或者war包方式打包
 
-* #### 指定jar包推到本地仓库
+* #### 安装第三方jar包到本地仓库
 
   * 进入jar包所在目录，cmd运行
 
@@ -34,7 +34,7 @@
     mvn install:install-file -Dfile=jar包路径 -DgroupId=jar包的groupId -DartifactId=jar包的artifactId -Dversion=jar包版本号 -Dpackaging=jar
     ```
 
-* #### 指定jar包推到远程仓库（私服）（方法一）
+* #### 安装本地开发jar包到远程仓库（私服）
 
   * 部署jar包到远程仓库主要包括两个部分：远程仓库认证，部署jar包到远程仓库 
 
@@ -92,7 +92,7 @@
 
       配置正确后，在命令行运行mvn clean deploy，Maven就会将项目构建输出的构件部署到配置对应的远程仓库，如果项目当前的版本是快照版本，则部署到快照版本仓库地址，否则就部署到发布版本仓库地址。
 
-* #### 指定jar包推到远程仓库（私服）（方法二）
+* #### 安装第三方jar包到远程仓库（私服）
 
   * 在settings配置文件中添加登录私服第三方登录信息
 
