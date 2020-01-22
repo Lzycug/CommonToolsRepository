@@ -51,15 +51,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 三方技能工具类
+ * 工具类
  *
- * @author x00285051
- * @since 2019-03-19
+ * @author lzycug
+ * @since 2020-01-22
  */
 public class Util {
     private static final Logger LOG = LogManager.getLogger(Util.class);
-
-    private static final int SUB_LENGTH = 200;
 
     private static final Pattern PROPERTIES_FILE_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5\\w.]{1,64}");
 
@@ -67,13 +65,9 @@ public class Util {
 
     private static final String XML_FILE_SUFFIX = ".xml";
 
-    private static final String ANONYMOUS_CHARACTER = "******";
-
     private static final Gson GSON = new GsonBuilder().serializeNulls().create();
 
     private static final JsonParser PARSER = new JsonParser();
-
-    private static final int PLAIN_TEXT_SIZE = 7;
 
     /**
      * 二进制的第一位
