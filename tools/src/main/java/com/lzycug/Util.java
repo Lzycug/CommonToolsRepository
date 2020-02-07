@@ -104,7 +104,7 @@ public class Util {
     }
 
     /**
-     * 判断是否为数字
+     * 判断该字符串是否为纯数字组成
      *
      * @param string 输入字符串
      * @return true:数字 false:非数字
@@ -145,7 +145,7 @@ public class Util {
     }
 
     /**
-     * 对象的非空判断
+     * 判断字符串是否为空
      *
      * @param string 处理的值
      * @return 处理结果
@@ -326,7 +326,6 @@ public class Util {
      * @param <T> 泛型
      * @return yaml配置文件
      */
-    @SuppressWarnings("unchecked")
     public static <T> Optional<T> loadYaml(String filePath) {
         Optional<File> loadFile = loadFile(filePath);
         if (!loadFile.isPresent()) {
@@ -475,7 +474,6 @@ public class Util {
             if (prototype.getClass().isInstance(result)) {
                 // 目前本方法只允许实现序列化接口的对象进行复制，且复制结果必然与源对象类型一致。
                 // 此处类型已判断，类型转换是安全的。
-                @SuppressWarnings("unchecked")
                 T targetObject = (T) result;
                 return Optional.ofNullable(targetObject);
             }
