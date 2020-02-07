@@ -156,3 +156,34 @@
     	<activeProfile>dev</activeProfile>
     </activeProfiles>
     ```
+
+* Git相关使用
+
+  * 下载[git](<https://git-scm.com/downloads> )
+
+  * 配置你的用户名和邮箱 （用于提交信息记录）
+
+    ```sh
+    $ git config --global user.name "yourName"
+    $ git config --global user.email "yourEmail@.com"
+    ```
+
+  * GitHub配置ssh公钥（GitHub配置SSH Key的目的是为了帮助我们在通过git提交代码是，不需要繁琐的验证过程，简化操作流程，https的方式需要每次都输入密码 ）
+
+    * 生成SSH key
+
+      ```sh
+      ssh-keygen -t rsa -C "yourEmail@.com" 
+      ```
+
+    * 获取SSH key
+
+      根据上一步命令提示在本机找到公钥配置文件，复制公钥内容到GitHub的Settings的SSH and KPG keys选项卡中点击new SSH key添加新的公钥key
+
+    * 验证是否成功配置SSH Key 
+
+      ```sh
+      ssh -T git@github.com 
+      //运行结果出现类似如下 
+      Hi yourName! You've successfully authenticated, but GitHub does not provide shell access. 
+      ```
