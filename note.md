@@ -187,3 +187,12 @@
       //运行结果出现类似如下 
       Hi yourName! You've successfully authenticated, but GitHub does not provide shell access. 
       ```
+
+  * git提交代码到远程仓库
+
+    * git status命令查看当前版本控制目录下的文件修改信息（包括新增、修改、删除等）
+    * git diff 确认文件提交内容无误
+    * git add .添加所有被版本控制文件到暂存区，git add ***具体文件到暂存区
+    * 可再使用git status命令查看是否添加完成
+    * git commit -m "your commit message"命令带提交信息提交代码到本地仓库
+    * git push orign <branch> 推送本地提交到远程仓库（orign是远程仓库地址信息）
