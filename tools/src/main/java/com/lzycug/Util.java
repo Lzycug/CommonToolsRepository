@@ -61,8 +61,6 @@ public class Util {
 
     private static final Pattern PROPERTIES_FILE_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5\\w.]{1,64}");
 
-    private static final String PATTERN_MATCHER_TITLE = "(\\\\u(\\p{XDigit}{4}))";
-
     private static final String XML_FILE_SUFFIX = ".xml";
 
     private static final Gson GSON = new GsonBuilder().serializeNulls().create();
@@ -94,12 +92,6 @@ public class Util {
      */
     private static final int CHAR_DEFAULT_VALUE = 0;
 
-    private static final int MATCH_SECOND_GROUP = 2;
-
-    private static final int MATCH_FIRST_GROUP = 1;
-
-    private static final int RADIX_DECIMAL = 16;
-
     private Util() {
     }
 
@@ -117,7 +109,7 @@ public class Util {
      * 对象的非空判断
      *
      * @param object 待判断对象
-     * @param <T> 泛型，支持判空的类型，目前所有引用类型都支持，约束上界为Object
+     * @param <T>    泛型，支持判空的类型，目前所有引用类型都支持，约束上界为Object
      * @return 是否为空
      */
     public static <T extends Object> boolean isEmpty(T object) {
@@ -158,20 +150,20 @@ public class Util {
      * 读取配置文件
      *
      * @param resourceName 文件名
-     * @param classLoader 类加载器
-     * @param encode 编码
+     * @param classLoader  类加载器
+     * @param encode       编码
      * @return 读取信息
      * @throws IOException 流异常，当无法正确关闭流的时候发生
      */
     public static Properties loadAllProperties(String resourceName, ClassLoader classLoader, String encode)
-        throws IOException {
+            throws IOException {
         Assert.notNull(resourceName, "resource name must not be null");
         ClassLoader classLoaderToUse = classLoader;
         if (classLoaderToUse == null) {
             classLoaderToUse = ClassUtils.getDefaultClassLoader();
         }
         Enumeration<URL> urls = classLoaderToUse != null ? classLoaderToUse.getResources(resourceName)
-            : ClassLoader.getSystemResources(resourceName);
+                : ClassLoader.getSystemResources(resourceName);
         Properties properties = new Properties();
         while (urls.hasMoreElements()) {
             URL url = urls.nextElement();
@@ -230,7 +222,7 @@ public class Util {
     }
 
     /**
-     * 2018-08-15 00:00:00转换成long类型
+     * yyyy-MM-dd HH:mm:ss日期转换成long类型
      *
      * @param date 字符串参数
      * @return 解析后的时间
@@ -245,7 +237,7 @@ public class Util {
      * 将对象转换为json字符串
      *
      * @param object 转换为json字符串的对象
-     * @param <T> 泛型
+     * @param <T>    泛型
      * @return 转换的json字符串
      */
     public static <T> String toJson(T object) {
@@ -255,8 +247,8 @@ public class Util {
     /**
      * 将json字符串转为对应对象
      *
-     * @param json 转换为对象的json字符串
-     * @param <T> 泛型
+     * @param json  转换为对象的json字符串
+     * @param <T>   泛型
      * @param clazz 类字节码对象
      * @return 转换的对应对象
      */
@@ -271,7 +263,7 @@ public class Util {
      * @return 转换的json数组
      */
     public static JsonArray getAsJsonArray(String json) {
-        if (json == null) {
+        if (StringUtils.isEmpty(json)) {
             return new JsonArray();
         }
         return PARSER.parse(json).getAsJsonArray();
@@ -284,7 +276,7 @@ public class Util {
      * @return 转换的json对象
      */
     public static JsonObject getAsJsonObject(String json) {
-        if (json == null) {
+        if (StringUtils.isEmpty(json)) {
             return new JsonObject();
         }
         return PARSER.parse(json).getAsJsonObject();
@@ -294,8 +286,8 @@ public class Util {
      * 加载yaml配置文件
      *
      * @param filePath 文件路径
-     * @param <T> 泛型
-     * @param type 字节码类型
+     * @param <T>      泛型
+     * @param type     字节码类型
      * @return yaml配置文件
      */
     public static <T> Optional<T> loadYaml(String filePath, Class<T> type) {
@@ -323,7 +315,7 @@ public class Util {
      * 加载yaml配置文件
      *
      * @param filePath 文件路径
-     * @param <T> 泛型
+     * @param <T>      泛型
      * @return yaml配置文件
      */
     public static <T> Optional<T> loadYaml(String filePath) {
@@ -350,13 +342,13 @@ public class Util {
      */
     public static Optional<File> loadFile(String filePath) {
         ClassLoader classLoader = Util.class.getClassLoader();
-        if (classLoader == null) {
-            LOG.error("classLoader is null");
+        if (ObjectUtils.isEmpty(classLoader)) {
+            LOG.error("classLoader is empty");
             return Optional.empty();
         }
         URL url = classLoader.getResource(filePath);
-        if (url == null) {
-            LOG.error("url is null");
+        if (ObjectUtils.isEmpty(url)) {
+            LOG.error("url is empty");
             return Optional.empty();
         }
         String path = url.getPath();
@@ -373,7 +365,7 @@ public class Util {
      * 注意：无论入参是MAP的何种实现，clone的结果MAP都是HashMap
      *
      * @param prototype 克隆的源MAP
-     * @param <T> 泛型，MAP的Value必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T>       泛型，MAP的Value必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆MAP
      */
     public static <T extends SecureCloneable<T>> Optional<Map<String, T>> secureClone(Map<String, T> prototype) {
@@ -394,7 +386,7 @@ public class Util {
      * 注意：无论入参是List的何种实现，clone的结果List都是ArrayList
      *
      * @param prototype 克隆的源LIST
-     * @param <T> 泛型，LIST元素必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T>       泛型，LIST元素必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆LIST
      */
     public static <T extends SecureCloneable<T>> Optional<List<T>> secureClone(List<T> prototype) {
@@ -414,7 +406,7 @@ public class Util {
      * 克隆一个新对象
      *
      * @param prototype 克隆的源对象
-     * @param <T> 泛型，被clone对象必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T>       泛型，被clone对象必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆对象
      */
     public static <T extends SecureCloneable<T>> Optional<T> secureClone(T prototype) {
@@ -430,8 +422,8 @@ public class Util {
      * 克隆一个新MAP
      *
      * @param prototype 克隆的源MAP
-     * @param <T> 泛型，MAP的KEY必须可序列化
-     * @param <U> 泛型，MAP的VALUE必须可序列化
+     * @param <T>       泛型，MAP的KEY必须可序列化
+     * @param <U>       泛型，MAP的VALUE必须可序列化
      * @return 克隆MAP
      */
     public static <T extends Serializable, U extends Serializable> Optional<Map<T, U>> clone(Map<T, U> prototype) {
@@ -442,7 +434,7 @@ public class Util {
      * 克隆一个新LIST
      *
      * @param prototype 克隆的源LIST
-     * @param <T> 泛型，LIST元素必须支持序列化
+     * @param <T>       泛型，LIST元素必须支持序列化
      * @return 克隆LIST
      */
     public static <T extends Serializable> Optional<List<T>> clone(List<T> prototype) {
@@ -456,7 +448,7 @@ public class Util {
      * 如需包含敏感信息的对象拷贝，应实现SecureCloneable接口并调用secureClone。
      *
      * @param prototype 克隆的源对象
-     * @param <T> 泛型
+     * @param <T>       泛型
      * @return 克隆对象
      */
     public static <T> Optional<T> cloneBySerialization(T prototype) {
@@ -466,7 +458,7 @@ public class Util {
         ByteArrayInputStream byteArrayInputStream = null;
         ObjectInputStream objectInputStream = null;
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
             objectOutputStream.writeObject(prototype);
             byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             objectInputStream = new SecureObjectInputStream(byteArrayInputStream);
@@ -500,30 +492,6 @@ public class Util {
     }
 
     /**
-     * Unicode编码转中文
-     *
-     * @param title 新闻标题
-     * @return string 转成中文后的标题
-     */
-    public static String unicodeToChinese(String title) {
-        String titleTemp = title;
-        try {
-            Pattern pattern = Pattern.compile(PATTERN_MATCHER_TITLE);
-            Matcher matcher = pattern.matcher(title);
-            char word;
-            while (matcher.find()) {
-                String secondGroup = matcher.group(MATCH_SECOND_GROUP);
-                word = (char) Integer.parseInt(secondGroup, RADIX_DECIMAL);
-                String firstGroup = matcher.group(MATCH_FIRST_GROUP);
-                titleTemp = title.replace(firstGroup, word + StringUtils.EMPTY);
-            }
-        } catch (NumberFormatException e) {
-            LOG.error("tencent news title unicode to chinese fail exception:{}", ExceptionUtils.getStackTrace(e));
-        }
-        return titleTemp;
-    }
-
-    /**
      * 转UTF-8编码
      *
      * @param value 需要编码的值
@@ -546,7 +514,7 @@ public class Util {
      * 获取一个二进制数第几位的值
      *
      * @param originalNumber 数值
-     * @param bitNumber 第几位
+     * @param bitNumber      第几位
      * @return 第几位的值
      */
     public static int getBitValueInNum(int originalNumber, int bitNumber) {
@@ -560,7 +528,7 @@ public class Util {
      * 设置一个二进制数第几位的值为1
      *
      * @param originalNumber 数值
-     * @param bitNumber 第几位
+     * @param bitNumber      第几位
      * @return 设置后的值
      */
     public static int setBitValueOneInNum(int originalNumber, int bitNumber) {
@@ -575,7 +543,7 @@ public class Util {
      * 设置一个二进制数第几位的值为0
      *
      * @param originalNumber 数值
-     * @param bitNumber 第几位
+     * @param bitNumber      第几位
      * @return 设置后的值
      */
     public static int setBitValueZeroInNum(int originalNumber, int bitNumber) {
@@ -634,7 +602,8 @@ public class Util {
      * @param data 待清零敏感数据
      */
     public static void cleanBytes(byte[] data) {
-        if (data == null) {
+        if (ObjectUtils.isEmpty(data)) {
+            LOG.error("data is empty");
             return;
         }
         for (int i = 0; i < data.length; i++) {
