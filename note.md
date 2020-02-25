@@ -196,3 +196,21 @@
     * 可再使用git status命令查看是否添加完成
     * git commit -m "your commit message"命令带提交信息提交代码到本地仓库
     * git push origin <branch> 推送本地提交到远程仓库（origin是远程仓库地址信息）
+
+* mysql数据库的相关操作
+
+  * 创建数据库指定字符集及排序规则
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS 数据库名称 DEFAULT CHARACTER SET 字符集 COLLATE 排序规则
+    ```
+
+  * 创建表指定字符集及引擎信息
+
+    ```sql
+    CREATE TABLE IF NOT EXISTS 表名(
+    	字段信息
+    )ENGINE=引擎名称 DEFAULT CHARSET=字符集;#指定引擎和存储字符类型
+    ```
+
+    
