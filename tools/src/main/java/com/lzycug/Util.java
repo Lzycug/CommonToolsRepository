@@ -46,8 +46,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Properties;
-import java.util.regex.Matcher;
+import java.util.Stack;
 import java.util.regex.Pattern;
 
 /**
@@ -109,7 +110,7 @@ public class Util {
      * 对象的非空判断
      *
      * @param object 待判断对象
-     * @param <T>    泛型，支持判空的类型，目前所有引用类型都支持，约束上界为Object
+     * @param <T> 泛型，支持判空的类型，目前所有引用类型都支持，约束上界为Object
      * @return 是否为空
      */
     public static <T extends Object> boolean isEmpty(T object) {
@@ -150,20 +151,20 @@ public class Util {
      * 读取配置文件
      *
      * @param resourceName 文件名
-     * @param classLoader  类加载器
-     * @param encode       编码
+     * @param classLoader 类加载器
+     * @param encode 编码
      * @return 读取信息
      * @throws IOException 流异常，当无法正确关闭流的时候发生
      */
     public static Properties loadAllProperties(String resourceName, ClassLoader classLoader, String encode)
-            throws IOException {
+        throws IOException {
         Assert.notNull(resourceName, "resource name must not be null");
         ClassLoader classLoaderToUse = classLoader;
         if (classLoaderToUse == null) {
             classLoaderToUse = ClassUtils.getDefaultClassLoader();
         }
         Enumeration<URL> urls = classLoaderToUse != null ? classLoaderToUse.getResources(resourceName)
-                : ClassLoader.getSystemResources(resourceName);
+            : ClassLoader.getSystemResources(resourceName);
         Properties properties = new Properties();
         while (urls.hasMoreElements()) {
             URL url = urls.nextElement();
@@ -237,7 +238,7 @@ public class Util {
      * 将对象转换为json字符串
      *
      * @param object 转换为json字符串的对象
-     * @param <T>    泛型
+     * @param <T> 泛型
      * @return 转换的json字符串
      */
     public static <T> String toJson(T object) {
@@ -247,8 +248,8 @@ public class Util {
     /**
      * 将json字符串转为对应对象
      *
-     * @param json  转换为对象的json字符串
-     * @param <T>   泛型
+     * @param json 转换为对象的json字符串
+     * @param <T> 泛型
      * @param clazz 类字节码对象
      * @return 转换的对应对象
      */
@@ -286,8 +287,8 @@ public class Util {
      * 加载yaml配置文件
      *
      * @param filePath 文件路径
-     * @param <T>      泛型
-     * @param type     字节码类型
+     * @param <T> 泛型
+     * @param type 字节码类型
      * @return yaml配置文件
      */
     public static <T> Optional<T> loadYaml(String filePath, Class<T> type) {
@@ -315,7 +316,7 @@ public class Util {
      * 加载yaml配置文件
      *
      * @param filePath 文件路径
-     * @param <T>      泛型
+     * @param <T> 泛型
      * @return yaml配置文件
      */
     public static <T> Optional<T> loadYaml(String filePath) {
@@ -365,7 +366,7 @@ public class Util {
      * 注意：无论入参是MAP的何种实现，clone的结果MAP都是HashMap
      *
      * @param prototype 克隆的源MAP
-     * @param <T>       泛型，MAP的Value必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T> 泛型，MAP的Value必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆MAP
      */
     public static <T extends SecureCloneable<T>> Optional<Map<String, T>> secureClone(Map<String, T> prototype) {
@@ -386,7 +387,7 @@ public class Util {
      * 注意：无论入参是List的何种实现，clone的结果List都是ArrayList
      *
      * @param prototype 克隆的源LIST
-     * @param <T>       泛型，LIST元素必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T> 泛型，LIST元素必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆LIST
      */
     public static <T extends SecureCloneable<T>> Optional<List<T>> secureClone(List<T> prototype) {
@@ -406,7 +407,7 @@ public class Util {
      * 克隆一个新对象
      *
      * @param prototype 克隆的源对象
-     * @param <T>       泛型，被clone对象必须自行实现SecureCloneable接口，确保安全的序列化
+     * @param <T> 泛型，被clone对象必须自行实现SecureCloneable接口，确保安全的序列化
      * @return 克隆对象
      */
     public static <T extends SecureCloneable<T>> Optional<T> secureClone(T prototype) {
@@ -422,8 +423,8 @@ public class Util {
      * 克隆一个新MAP
      *
      * @param prototype 克隆的源MAP
-     * @param <T>       泛型，MAP的KEY必须可序列化
-     * @param <U>       泛型，MAP的VALUE必须可序列化
+     * @param <T> 泛型，MAP的KEY必须可序列化
+     * @param <U> 泛型，MAP的VALUE必须可序列化
      * @return 克隆MAP
      */
     public static <T extends Serializable, U extends Serializable> Optional<Map<T, U>> clone(Map<T, U> prototype) {
@@ -434,7 +435,7 @@ public class Util {
      * 克隆一个新LIST
      *
      * @param prototype 克隆的源LIST
-     * @param <T>       泛型，LIST元素必须支持序列化
+     * @param <T> 泛型，LIST元素必须支持序列化
      * @return 克隆LIST
      */
     public static <T extends Serializable> Optional<List<T>> clone(List<T> prototype) {
@@ -448,7 +449,7 @@ public class Util {
      * 如需包含敏感信息的对象拷贝，应实现SecureCloneable接口并调用secureClone。
      *
      * @param prototype 克隆的源对象
-     * @param <T>       泛型
+     * @param <T> 泛型
      * @return 克隆对象
      */
     public static <T> Optional<T> cloneBySerialization(T prototype) {
@@ -458,7 +459,7 @@ public class Util {
         ByteArrayInputStream byteArrayInputStream = null;
         ObjectInputStream objectInputStream = null;
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
             objectOutputStream.writeObject(prototype);
             byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             objectInputStream = new SecureObjectInputStream(byteArrayInputStream);
@@ -514,7 +515,7 @@ public class Util {
      * 获取一个二进制数第几位的值
      *
      * @param originalNumber 数值
-     * @param bitNumber      第几位
+     * @param bitNumber 第几位
      * @return 第几位的值
      */
     public static int getBitValueInNum(int originalNumber, int bitNumber) {
@@ -528,7 +529,7 @@ public class Util {
      * 设置一个二进制数第几位的值为1
      *
      * @param originalNumber 数值
-     * @param bitNumber      第几位
+     * @param bitNumber 第几位
      * @return 设置后的值
      */
     public static int setBitValueOneInNum(int originalNumber, int bitNumber) {
@@ -543,7 +544,7 @@ public class Util {
      * 设置一个二进制数第几位的值为0
      *
      * @param originalNumber 数值
-     * @param bitNumber      第几位
+     * @param bitNumber 第几位
      * @return 设置后的值
      */
     public static int setBitValueZeroInNum(int originalNumber, int bitNumber) {
@@ -609,5 +610,44 @@ public class Util {
         for (int i = 0; i < data.length; i++) {
             data[i] = 0;
         }
+    }
+
+    /**
+     * 获取字符串中指定字符的个数
+     *
+     * @param origin 字符串源
+     * @param character 指定要判断个数的字符
+     * @return 字符出现次数
+     */
+    public static OptionalInt getNumFromString(String origin, char character) {
+        if (StringUtils.isEmpty(origin)) {
+            LOG.error("data is empty");
+            return OptionalInt.empty();
+        }
+        String replaceStr = origin.replace(String.valueOf(character), "");
+        return OptionalInt.of(origin.length() - replaceStr.length());
+    }
+
+    /**
+     * 通过栈先进后出的特点反转字符串
+     *
+     * @param origin 需要反转的字符串
+     * @return 反转结果
+     */
+    public static String reverse(String origin) {
+        if (StringUtils.isEmpty(origin)) {
+            LOG.error("data is empty");
+            return StringUtils.EMPTY;
+        }
+        char[] charArray = origin.toCharArray();
+        Stack<Character> stack = new Stack<>();
+        for (char c : charArray) {
+            stack.push(c);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : charArray) {
+            stringBuilder.append(stack.pop());
+        }
+        return stringBuilder.toString();
     }
 }
