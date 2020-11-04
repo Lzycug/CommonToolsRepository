@@ -10,15 +10,26 @@ package com.lzycug.leetcode.questionBank;
  */
 public class ClimbStairs {
     public static void main(String[] args) {
-        System.out.println(climbStairsMemo(45));
+        System.out.println(climbStairsDynamic(45));
+    }
+
+    private static int climbStairsDynamic(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        int i1 = 1;
+        int i2 = 2;
+        for (int i = 3; i <= n; i++) {
+            int temp = i1 + i2;
+            i1 = i2;
+            i2 = temp;
+        }
+        return i2;
     }
 
     private static int climbStairs(int n) {
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 2) {
-            return 2;
+        if (n <= 2) {
+            return n;
         }
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
@@ -27,10 +38,8 @@ public class ClimbStairs {
         if (memo[n] > 0) {
             return memo[n];
         }
-        if (n == 1) {
-            memo[n] = 1;
-        } else if (n == 2) {
-            memo[n] = 2;
+        if (n <= 2) {
+            memo[n] = n;
         } else {
             memo[n] = climbStairsMemo(n - 1, memo) + climbStairsMemo(n - 2, memo);
         }
