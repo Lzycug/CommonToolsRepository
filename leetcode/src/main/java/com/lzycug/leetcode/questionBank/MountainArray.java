@@ -11,7 +11,7 @@ import org.springframework.util.ObjectUtils;
 @Slf4j
 public class MountainArray {
     public static void main(String[] args) {
-        int[] array = {3,5,6,9,5,6,1};
+        int[] array = {1,7,9,5,4,1,2};
         boolean result = validMountainArray(array);
         System.out.println(result);
     }
@@ -42,7 +42,7 @@ public class MountainArray {
         }
 
         boolean behindFlag = true;
-        for (int i = maxInx; i < array.length - 2; i++) {
+        for (int i = maxInx; i < array.length - 1; i++) {
             if (array[i] <= array[i + 1]) {
                 behindFlag = false;
                 break;
