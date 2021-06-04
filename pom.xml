@@ -15,7 +15,7 @@
 
     <properties>
         <jsoup.version>1.11.3</jsoup.version>
-        <httpclient.version>4.5.5</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <commons.version>3.7</commons.version>
         <log4j.version>2.11.2</log4j.version>
         <snakeyaml.version>1.23</snakeyaml.version>
